@@ -1,10 +1,14 @@
-import 'dart:async';
 import 'package:coffee/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
+
+import '../models/menu_item.dart';
+import 'basket_screen.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
@@ -62,6 +66,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       padding: const EdgeInsets.only(right: 20),
                       child: Icon(themeIcon, size: 35,),
                     ),
+                  ), Padding(
+                    padding: const EdgeInsets.only(right: 14),
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => BasketScreen(basketItems: order)));
+                      },
+                      child: const Icon(Icons.shopping_basket)),
                   )]
                 ),
                 const SizedBox(height: 25,),
@@ -175,6 +186,8 @@ class ProductWidget extends StatelessWidget {
   }
 }
 
+List<MenuItem> order = [];
+
 Widget _buildBottomSheet(
     BuildContext context,
     ScrollController scrollController,
@@ -232,6 +245,7 @@ Widget _buildBottomSheet(
                     backgroundColor: Color.fromARGB(255, 141, 141, 141),
                     textColor: Colors.white,
                     fontSize: 16.0);
+                    order.add(MenuItem("120 \$", "Флэт Уайт", "250 ml"));
                   },
                   child: Container(
                     height: 60,
