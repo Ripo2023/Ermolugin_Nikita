@@ -1,4 +1,7 @@
 import 'package:coffee/screens/onboard_screens/onboard_2_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,7 +35,7 @@ class Onboard1ScreenState extends State<Onboard1Screen> {
       body: SafeArea(
         child: GestureDetector(
           onHorizontalDragStart: (details) {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Onboard2Screen()));
+              Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context) => const Onboard2Screen()));
           },
           child: Column(
             children: [
@@ -74,7 +77,7 @@ class Onboard1ScreenState extends State<Onboard1Screen> {
               const SizedBox(height:60),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Onboard2Screen()));
+                  Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context) => const Onboard2Screen()));
                 },
                 child: Container(
                   width: 140,

@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:coffee/screens/products_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +13,12 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  @override
+  void initState() {
+    if(FirebaseAuth.instance.currentUser != null){
+    }
+    super.initState();
+  }
   bool isChecked = false;
   String numberErrorText = '';
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -28,9 +36,15 @@ class _SignInScreenState extends State<SignInScreen> {
     } 
       },
       codeSent: (String verificationId, int? resendToken)async {
-        String smsCode = 'xxxx';
-        PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
-        await auth.signInWithCredential(credential);
+                setState(() {});
+
+        String smsCode = codeController.text;
+        if(smsCode.length == 6){
+          PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+          await auth.signInWithCredential(credential);
+        } else {
+        numberErrorText = 'Некорректный ввод';
+        }
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
 );

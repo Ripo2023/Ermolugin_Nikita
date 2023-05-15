@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../sign_in_screen.dart';
 import 'onboard_3_screen.dart';
@@ -17,7 +18,7 @@ class _Onboard2ScreenState extends State<Onboard2Screen> {
       body: SafeArea(
         child: GestureDetector(
             onHorizontalDragStart: (details) {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Onboard3Screen()));
+              Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context) => const Onboard3Screen()));
           },
           child: Column(
             children: [
@@ -59,7 +60,7 @@ class _Onboard2ScreenState extends State<Onboard2Screen> {
               const SizedBox(height:60),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Onboard3Screen()));
+                  Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context) => const Onboard3Screen()));
                 },
                 child: Container(
                   width: 140,
