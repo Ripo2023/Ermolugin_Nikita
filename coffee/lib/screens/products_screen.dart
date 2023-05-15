@@ -1,6 +1,4 @@
 import 'package:coffee/main.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';

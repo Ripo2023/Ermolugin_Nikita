@@ -2,7 +2,6 @@ import 'package:coffee/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'screens/products_screen.dart';
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,9 +28,6 @@ _listener() {
   localTheme = model.theme;
   updTheme();
 }
-
-
-
 //Обновление состояния корневого виджета для обновления темы
   updTheme(){
     setState(() {

@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'package:coffee/screens/products_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -26,8 +24,8 @@ class _SignInScreenState extends State<SignInScreen> {
             
     if(numberController.text.isNotEmpty){
       Navigator.push(context, MaterialPageRoute(builder: (context) => CheckCodeScreen()));
+      //TODO: проверить сервер Firebase
       try{
-      
       await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: numberController.text,
       verificationCompleted: (PhoneAuthCredential credential) async{
@@ -50,7 +48,8 @@ class _SignInScreenState extends State<SignInScreen> {
         }
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
-);     } catch(e){
+);     } 
+catch(e){
         return const AlertDialog(title: Text('Ошибка'),  content: Text(
             'Произошла ошибка. Проверьте правильность\n'
             'введенных данных\n'

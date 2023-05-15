@@ -31,7 +31,7 @@ class SplashScreen extends StatelessWidget {
             // FirebaseAuth.instance.signOut();
             //Вывести номер текущего пользователя
             debugPrint(FirebaseAuth.instance.currentUser?.phoneNumber);
-            
+            //Проверить, видел ли пользователь борды и подтвержден ли номер телефона
             return const ProductsScreen();
           } else{
             return const SignInScreen();
@@ -68,7 +68,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(decoration: const BoxDecoration(
-        gradient: LinearGradient(
+        gradient: LinearGradient(//линейный градиент одинаков везде
           begin: Alignment.topLeft,
           colors: [Color.fromARGB(255, 255, 200, 163), Color.fromARGB(255, 255, 189, 230)])
       ),
