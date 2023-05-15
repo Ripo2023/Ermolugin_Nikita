@@ -21,7 +21,7 @@ class SplashScreen extends StatelessWidget {
     debugPrint(isSeeOnboards.toString());
     return isSeeOnboards;
   }
-
+//получение начаьлного экрана
   Widget _getHomePage(){
     return FutureBuilder(future: _getPrefs(),
     builder: (context, snapshot){
