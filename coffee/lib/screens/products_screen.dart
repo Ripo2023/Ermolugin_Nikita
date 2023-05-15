@@ -1,6 +1,11 @@
+import 'dart:async';
+import 'package:coffee/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:property_change_notifier/property_change_notifier.dart';
+
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
 
@@ -18,6 +23,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
     );
   return svg;
   }
+  IconData themeIcon = Icons.sunny;
+  bool _isThemeLight = true;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +42,26 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     children: [
                     Text('Coffee shop adress', style: TextStyle(fontSize: 16, color: Colors.grey),), 
                     Row(children: [Icon(Icons.map), Text('43, Marathon st.', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),)],),],
+                  ),
+                  Spacer(),
+                  GestureDetector(
+                    onTap: (){
+                      _isThemeLight = !_isThemeLight;
+                      if(_isThemeLight){
+                        themeIcon = Icons.sunny;
+                        model.theme = ThemeData.light();
+                      } else{
+                        themeIcon = Icons.dark_mode;
+                        model.theme = ThemeData.dark();
+                      }
+                      setState(() {
+                        MyApp();
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Icon(themeIcon, size: 35,),
+                    ),
                   )]
                 ),
                 const SizedBox(height: 25,),
@@ -45,7 +72,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
               children: [
                 const SizedBox(width: 15,),
                 Container(
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), gradient: LinearGradient(
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), gradient: const LinearGradient(
           begin: Alignment.topLeft,
           colors: [Color.fromARGB(255, 255, 200, 163), Color.fromARGB(255, 255, 189, 230)]),),
                   width: 350, height:250,
@@ -55,7 +82,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   ],),),
                   const SizedBox(width: 15,),
                   Container(
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), gradient: LinearGradient(
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), gradient: const LinearGradient(
           begin: Alignment.topLeft,
           colors: [Color.fromARGB(255, 255, 200, 163), Color.fromARGB(255, 255, 189, 230)]),),
                   width: 350, height:250,
@@ -169,8 +196,19 @@ Widget _buildBottomSheet(
                     },
                     child: const Icon(Icons.arrow_back_ios)),
                   // Text('Espresso-based coffee with the addition of warmed foamed milk'),
-                  const Text('Cappuchino', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w600),),
-                  const Icon(Icons.info_outline)
+                  const Text('Флэт Уайт', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w600),),
+                  GestureDetector(
+                    onTap:(){
+                      Fluttertoast.showToast(
+                    msg: "Flat White",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Color.fromARGB(255, 141, 141, 141),
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+                    },
+                    child: const Icon(Icons.info_outline))
                 ],),
               ),
               Image.asset('assets/images/флэт_уайт.png', scale: 0.4,),
@@ -180,14 +218,27 @@ Widget _buildBottomSheet(
                 padding: EdgeInsets.all(8.0),
                 child: Text('Volume', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),),
               ),
+              Text('Ермолюгин Никита Сергеевич'),
               const SizedBox(height: 12,),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
-                child: Container(
-                  height: 60,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), 
-                  color: const Color.fromARGB(255, 235, 75, 27)), 
-                  child: const Center(child: Text('Add to card 120 \$', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w500),)),),
+                child: GestureDetector(
+                  onTap: (){
+                    Fluttertoast.showToast(
+                    msg: "Добавлено в корзину",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Color.fromARGB(255, 141, 141, 141),
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+                  },
+                  child: Container(
+                    height: 60,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), 
+                    color: const Color.fromARGB(255, 235, 75, 27)), 
+                    child: const Center(child: Text('Add to card 120 \$', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w500),)),),
+                ),
               )
             ],
           ),
@@ -196,8 +247,11 @@ Widget _buildBottomSheet(
   }
 
 class ProductWidgetTile extends StatelessWidget {
+  final String imageLink = '';
+
   const ProductWidgetTile({
     super.key,
+
   });
 
 _getMaxHeith()
@@ -245,5 +299,16 @@ showFlexibleBottomSheet(
         ),
       ),
     );
+  }
+}
+
+class ThemeModel extends PropertyChangeNotifier<String> {
+  ThemeData _theme = ThemeData.light();
+
+  ThemeData get theme => _theme;
+
+  set theme(ThemeData value) {
+    _theme = value;
+    notifyListeners('theme');
   }
 }

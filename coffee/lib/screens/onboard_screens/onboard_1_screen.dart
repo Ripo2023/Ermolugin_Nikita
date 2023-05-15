@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../products_screen.dart';
 import '../sign_in_screen.dart';
 import 'onboard_4_screen.dart';
 
@@ -47,7 +48,11 @@ class Onboard1ScreenState extends State<Onboard1Screen> {
                     GestureDetector(
                       onTap: () {},
                       child: GestureDetector(onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
+                                          if(FirebaseAuth.instance.currentUser != null){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProductsScreen()));
+                  } else {
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignInScreen()));
+                  }
                       },
                         child: const Text('Skip', style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 235, 75, 27)),))),
                   ],

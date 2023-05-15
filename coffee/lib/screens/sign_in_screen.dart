@@ -23,8 +23,11 @@ class _SignInScreenState extends State<SignInScreen> {
   String numberErrorText = '';
   FirebaseAuth auth = FirebaseAuth.instance;
   _validateNumber() async {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CheckCodeScreen()));
+            
     if(numberController.text.isNotEmpty){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => CheckCodeScreen()));
+      try{
+      
       await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: numberController.text,
       verificationCompleted: (PhoneAuthCredential credential) async{
@@ -47,7 +50,13 @@ class _SignInScreenState extends State<SignInScreen> {
         }
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
-);
+);     } catch(e){
+        return const AlertDialog(title: Text('Ошибка'),  content: Text(
+            'Произошла ошибка. Проверьте правильность\n'
+            'введенных данных\n'
+          ),);
+        
+      }
     } else {
     numberErrorText = 'Некорректный ввод';
     setState(() {
