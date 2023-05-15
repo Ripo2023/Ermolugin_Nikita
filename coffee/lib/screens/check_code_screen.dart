@@ -1,4 +1,5 @@
 import 'package:coffee/screens/products_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,10 +9,10 @@ class CheckCodeScreen extends StatefulWidget {
   @override
   State<CheckCodeScreen> createState() => _CheckCodeScreenState();
 }
-
-class _CheckCodeScreenState extends State<CheckCodeScreen> {
+  String globalError = '';
+  final codeController = TextEditingController();
   String numberErrorText = '';
-  final numberController = TextEditingController();
+class _CheckCodeScreenState extends State<CheckCodeScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,7 @@ child: Column(
   Padding(
     padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 5),
     child: TextField(
-      controller: numberController,
+      controller: codeController,
       keyboardType: TextInputType.phone,
       decoration: InputDecoration(
         errorText: numberErrorText,
@@ -55,7 +56,9 @@ child: Column(
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
             onTap: () async{
+              if(FirebaseAuth.instance.currentUser != null){
               Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductsScreen()));
+              }
             },
             child: Container(
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(17), color: Color.fromARGB(255, 235, 75, 27),),

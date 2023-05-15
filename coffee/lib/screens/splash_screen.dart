@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:coffee/screens/products_screen.dart';
 import 'package:coffee/screens/sign_in_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,8 +11,10 @@ class SplashScreen extends StatelessWidget {
   
   SplashScreen({super.key});
 
+//Для определения, был ли уже просмотрен onboard
      bool? isSeeOnboards = false;
 
+//Получение значений из shared preferences
   _getPrefs() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     isSeeOnboards = prefs.getBool('seeOnboards');
@@ -23,7 +27,15 @@ class SplashScreen extends StatelessWidget {
     builder: (context, snapshot){
       if(snapshot.hasData){
         if(isSeeOnboards == true){
-          return const SignInScreen();
+          if(FirebaseAuth.instance.currentUser?.phoneNumber != null){
+            // FirebaseAuth.instance.signOut();
+            //Вывести номер текущего пользователя
+            debugPrint(FirebaseAuth.instance.currentUser?.phoneNumber);
+            
+            return const ProductsScreen();
+          } else{
+            return const SignInScreen();
+          }
         } else {
           return const Onboard1Screen();
         }
@@ -47,6 +59,8 @@ class SplashScreen extends StatelessWidget {
     Timer(Duration(seconds: 2), (){
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => _getHomePage()));
     });
+    //Так как таймер в любом случае должен вернуть виджет, хоть этот блок никогда
+    //не выполнится, необходимо вернуть любой виджет
     return Text('');
   }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:coffee/screens/products_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -11,12 +13,21 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  @override
+  void initState() {
+    if(FirebaseAuth.instance.currentUser != null){
+    }
+    super.initState();
+  }
   bool isChecked = false;
   String numberErrorText = '';
   FirebaseAuth auth = FirebaseAuth.instance;
   _validateNumber() async {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CheckCodeScreen()));
+            
     if(numberController.text.isNotEmpty){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => CheckCodeScreen()));
+      try{
+      
       await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: numberController.text,
       verificationCompleted: (PhoneAuthCredential credential) async{
@@ -28,12 +39,24 @@ class _SignInScreenState extends State<SignInScreen> {
     } 
       },
       codeSent: (String verificationId, int? resendToken)async {
-        String smsCode = 'xxxx';
-        PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
-        await auth.signInWithCredential(credential);
+                setState(() {});
+
+        String smsCode = codeController.text;
+        if(smsCode.length == 6){
+          PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+          await auth.signInWithCredential(credential);
+        } else {
+        numberErrorText = 'Некорректный ввод';
+        }
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
-);
+);     } catch(e){
+        return const AlertDialog(title: Text('Ошибка'),  content: Text(
+            'Произошла ошибка. Проверьте правильность\n'
+            'введенных данных\n'
+          ),);
+        
+      }
     } else {
     numberErrorText = 'Некорректный ввод';
     setState(() {

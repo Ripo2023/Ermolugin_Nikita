@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../products_screen.dart';
 import '../sign_in_screen.dart';
 
 class Onboard4Screen extends StatefulWidget {
@@ -50,7 +54,11 @@ class _Onboard4ScreenState extends State<Onboard4Screen> {
               const SizedBox(height:60),
               GestureDetector(
                 onTap: () {
+                  if(FirebaseAuth.instance.currentUser != null){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProductsScreen()));
+                  } else {
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignInScreen()));
+                  }
                 },
                 child: Container(
                   width: 140,
